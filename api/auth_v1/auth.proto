@@ -55,6 +55,7 @@ message LoginRequest{
 message LoginResponse{
   int32   status = 1;
   string  token = 2;
+  string error = 3;
 }
 
 message RegistrationRequest{
@@ -64,6 +65,7 @@ message RegistrationRequest{
 
 message RegistrationResponse{
   string  statusMessage = 1;
+  string  error = 2;
 }
 
 message ConfirmEmailRequest {
@@ -73,6 +75,7 @@ message ConfirmEmailRequest {
 
 message ConfirmEmailResponse {
   string  statusMessage = 1;
+  string  error = 2;
 }
 
 message UserRequest {
@@ -87,4 +90,5 @@ message UserResponse {
   string          telegram = 5;
   string          photoUrl = 6;
   string          email = 7;
+  string          error = 8;
 }
