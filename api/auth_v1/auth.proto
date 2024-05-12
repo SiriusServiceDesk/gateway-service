@@ -1,0 +1,90 @@
+syntax = "proto3";
+
+package auth_v1;
+
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/SiriusServiceDesk/gateway-service/pkg/auth_v1;auth_v1";
+
+service AuthV1 {
+  rpc Status (google.protobuf.Empty) returns (StatusResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/status"
+    };
+  }
+
+  rpc Login(LoginRequest) returns (LoginResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/login"
+      body: "*"
+    };
+  }
+
+  rpc Registration(RegistrationRequest) returns (RegistrationResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/registration"
+      body: "*"
+    };
+  }
+
+  rpc ConfirmEmail(ConfirmEmailRequest) returns (ConfirmEmailResponse) {
+    option (google.api.http) = {
+      post: "/v1/auth/confirmEmail"
+      body: "*"
+    };
+  }
+
+  rpc User(UserRequest) returns (UserResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/user"
+    };
+  }
+}
+
+message StatusResponse {
+  string statusCode = 1;
+  string message = 2;
+}
+
+message LoginRequest{
+  string  email = 1;
+  string  password = 2;
+}
+
+message LoginResponse{
+  int32   status = 1;
+  string  token = 2;
+}
+
+message RegistrationRequest{
+  string  email = 1;
+  string  password = 2;
+}
+
+message RegistrationResponse{
+  string  statusMessage = 1;
+}
+
+message ConfirmEmailRequest {
+  string  email = 1;
+  int32   verificationCode = 2;
+}
+
+message ConfirmEmailResponse {
+  string  statusMessage = 1;
+}
+
+message UserRequest {
+  string userId = 1;
+}
+
+message UserResponse {
+  string          userId = 1;
+  string          name = 2;
+  string          surname = 3;
+  optional string secondName = 4;
+  string          telegram = 5;
+  string          photoUrl = 6;
+  string          email = 7;
+}
