@@ -25,26 +25,71 @@ func createClientToAuthService(ctx context.Context) (auth_v1.AuthV1Client, error
 }
 
 func (a AuthHandler) Status(ctx context.Context, empty *emptypb.Empty) (*auth_v1.StatusResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.Status(ctx, empty)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
 
 func (a AuthHandler) Login(ctx context.Context, request *auth_v1.LoginRequest) (*auth_v1.LoginResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.Login(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
 
 func (a AuthHandler) Registration(ctx context.Context, request *auth_v1.RegistrationRequest) (*auth_v1.RegistrationResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.Registration(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
 
 func (a AuthHandler) ConfirmEmail(ctx context.Context, request *auth_v1.ConfirmEmailRequest) (*auth_v1.ConfirmEmailResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.ConfirmEmail(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
 
 func (a AuthHandler) User(ctx context.Context, request *auth_v1.UserRequest) (*auth_v1.UserResponse, error) {
-	//TODO implement me
-	panic("implement me")
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.User(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+
+	return response, nil
 }
