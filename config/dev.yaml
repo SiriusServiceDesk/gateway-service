@@ -1,7 +1,0 @@
-env: local
-http_server:
-  address: 0.0.0.0:8000
-grpc_server:
-  address: 0.0.0.0:3000
-auth_service:
-  address: localhost:3000
