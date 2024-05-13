@@ -12,6 +12,7 @@ get-deps:
 
 generate:
 	make generate-auth-api
+	make generate-notification-api
 
 
 generate-auth-api:
@@ -24,6 +25,18 @@ generate-auth-api:
 	--grpc-gateway_out=pkg/auth_v1 --grpc-gateway_opt=paths=source_relative \
 	--plugin=protoc-gen-grpc-gateway=bin/protoc-gen-grpc-gateway \
 	api/auth_v1/auth.proto
+
+generate-notification-api:
+	mkdir -p pkg/notification_v1
+	protoc --proto_path api/notification_v1 --proto_path vendor.protogen \
+	--go_out=pkg/notification_v1 --go_opt=paths=source_relative \
+	--plugin=protoc-gen-go=bin/protoc-gen-go \
+	--go-grpc_out=pkg/notification_v1 --go-grpc_opt=paths=source_relative \
+	--plugin=protoc-gen-go-grpc=bin/protoc-gen-go-grpc \
+	--grpc-gateway_out=pkg/notification_v1 --grpc-gateway_opt=paths=source_relative \
+	--plugin=protoc-gen-grpc-gateway=bin/protoc-gen-grpc-gateway \
+	api/notification_v1/notification.proto
+
 
 vendor-proto:
 		@if [ ! -d vendor.protogen/google ]; then \

@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package notification_v1;
+
+option go_package = "github.com/SiriusServiceDesk/notification-service/pkg/notification_v1;notification_v1";
+
+service NotificationV1 {
+  rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse);
+}
+
+message CreateMessageRequest {
+    string subject = 1;
+    repeated string to = 2;
+    string data = 3;
+    string template_name = 4;
+    string type = 5;
+}
+
+message CreateMessageResponse {
+  int32 status = 1;
+  string message = 2;
+}
