@@ -55,7 +55,7 @@ message LoginRequest{
 message LoginResponse{
   int32   status = 1;
   string  token = 2;
-  string  error = 3;
+  string message = 3;
 }
 
 message RegistrationRequest{
@@ -65,7 +65,7 @@ message RegistrationRequest{
 
 message RegistrationResponse{
   int32  status = 1;
-  string  error = 2;
+  string message = 2;
 }
 
 message ConfirmEmailRequest {
@@ -75,7 +75,7 @@ message ConfirmEmailRequest {
 
 message ConfirmEmailResponse {
   int32  status = 1;
-  string  error = 2;
+  string  message = 2;
 }
 
 message UserRequest {
@@ -83,12 +83,14 @@ message UserRequest {
 }
 
 message UserResponse {
-  string          userId = 1;
-  string          name = 2;
-  string          surname = 3;
-  optional string secondName = 4;
-  string          telegram = 5;
-  string          photoUrl = 6;
-  string          email = 7;
-  string          error = 8;
+  string status = 1;
+  message payload {
+    string          userId = 1;
+    string          name = 2;
+    string          surname = 3;
+    optional string secondName = 4;
+    string          telegram = 5;
+    string          photoUrl = 6;
+    string          email = 7;
+  }
 }
