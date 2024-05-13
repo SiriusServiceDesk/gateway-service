@@ -22,4 +22,5 @@ go.work
 .idea
 bin
 /vendor.protogen/
-config/local.yaml
+config/dev.yaml
+config/prod.yaml
