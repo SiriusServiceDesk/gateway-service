@@ -28,6 +28,7 @@ type AuthV1Client interface {
 	Registration(ctx context.Context, in *RegistrationRequest, opts ...grpc.CallOption) (*RegistrationResponse, error)
 	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...grpc.CallOption) (*ConfirmEmailResponse, error)
 	User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
+	GetUserIdFromToken(ctx context.Context, in *GetUserIdFromTokenRequest, opts ...grpc.CallOption) (*GetUserIdFromTokenResponse, error)
 }
 
 type authV1Client struct {
@@ -83,6 +84,15 @@ func (c *authV1Client) User(ctx context.Context, in *UserRequest, opts ...grpc.C
 	return out, nil
 }
 
+func (c *authV1Client) GetUserIdFromToken(ctx context.Context, in *GetUserIdFromTokenRequest, opts ...grpc.CallOption) (*GetUserIdFromTokenResponse, error) {
+	out := new(GetUserIdFromTokenResponse)
+	err := c.cc.Invoke(ctx, "/auth_v1.AuthV1/GetUserIdFromToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthV1Server is the server API for AuthV1 service.
 // All implementations must embed UnimplementedAuthV1Server
 // for forward compatibility
@@ -92,6 +102,7 @@ type AuthV1Server interface {
 	Registration(context.Context, *RegistrationRequest) (*RegistrationResponse, error)
 	ConfirmEmail(context.Context, *ConfirmEmailRequest) (*ConfirmEmailResponse, error)
 	User(context.Context, *UserRequest) (*UserResponse, error)
+	GetUserIdFromToken(context.Context, *GetUserIdFromTokenRequest) (*GetUserIdFromTokenResponse, error)
 	mustEmbedUnimplementedAuthV1Server()
 }
 
@@ -113,6 +124,9 @@ func (UnimplementedAuthV1Server) ConfirmEmail(context.Context, *ConfirmEmailRequ
 }
 func (UnimplementedAuthV1Server) User(context.Context, *UserRequest) (*UserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method User not implemented")
+}
+func (UnimplementedAuthV1Server) GetUserIdFromToken(context.Context, *GetUserIdFromTokenRequest) (*GetUserIdFromTokenResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserIdFromToken not implemented")
 }
 func (UnimplementedAuthV1Server) mustEmbedUnimplementedAuthV1Server() {}
 
@@ -217,6 +231,24 @@ func _AuthV1_User_Handler(srv interface{}, ctx context.Context, dec func(interfa
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthV1_GetUserIdFromToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserIdFromTokenRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthV1Server).GetUserIdFromToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth_v1.AuthV1/GetUserIdFromToken",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthV1Server).GetUserIdFromToken(ctx, req.(*GetUserIdFromTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthV1_ServiceDesc is the grpc.ServiceDesc for AuthV1 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -243,6 +275,10 @@ var AuthV1_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "User",
 			Handler:    _AuthV1_User_Handler,
+		},
+		{
+			MethodName: "GetUserIdFromToken",
+			Handler:    _AuthV1_GetUserIdFromToken_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -93,3 +93,16 @@ func (a AuthHandler) User(ctx context.Context, request *auth_v1.UserRequest) (*a
 
 	return response, nil
 }
+
+func (a AuthHandler) GetUserIdFromToken(ctx context.Context, request *auth_v1.GetUserIdFromTokenRequest) (*auth_v1.GetUserIdFromTokenResponse, error) {
+	conn, err := createClientToAuthService(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	response, err := conn.GetUserIdFromToken(ctx, request)
+	if err != nil {
+		return nil, err
+	}
+	return response, nil
+}

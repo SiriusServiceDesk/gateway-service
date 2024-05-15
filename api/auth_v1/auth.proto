@@ -40,8 +40,13 @@ service AuthV1 {
       get: "/v1/auth/user"
     };
   }
-}
 
+  rpc GetUserIdFromToken(GetUserIdFromTokenRequest) returns (GetUserIdFromTokenResponse) {
+    option (google.api.http) = {
+      get: "/v1/auth/getUserIdFromToken"
+    };
+  }
+}
 message StatusResponse {
   int32  status = 1;
   string  message = 2;
@@ -93,4 +98,12 @@ message UserResponse {
     string          photoUrl = 6;
     string          email = 7;
   }
+}
+
+message GetUserIdFromTokenRequest {
+  string token = 1;
+}
+
+message GetUserIdFromTokenResponse {
+  string userId = 1;
 }
