@@ -101,7 +101,7 @@ message UserResponse {
 }
 
 message GetUserIdFromTokenRequest {
-  string token = 1;
+  repeated string header = 1;
 }
 
 message GetUserIdFromTokenResponse {
