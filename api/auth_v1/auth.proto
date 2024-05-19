@@ -46,6 +46,10 @@ service AuthV1 {
       get: "/v1/auth/getUserIdFromToken"
     };
   }
+
+  rpc GetUserFromById(GetUserFromByIdRequest) returns (GetUserFromByIdResponse) {
+
+  }
 }
 message StatusResponse {
   int32  status = 1;
@@ -106,4 +110,15 @@ message GetUserIdFromTokenRequest {
 
 message GetUserIdFromTokenResponse {
   string userId = 1;
+}
+
+message GetUserFromByIdRequest {
+  string userId = 1;
+}
+message GetUserFromByIdResponse {
+  string Name = 1;
+  string Surname = 2;
+  string SecondName = 3;
+  string Email = 4;
+  string Role = 5;
 }
