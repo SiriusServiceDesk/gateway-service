@@ -47,7 +47,7 @@ service AuthV1 {
     };
   }
 
-  rpc GetUserFromById(GetUserFromByIdRequest) returns (GetUserFromByIdResponse) {
+  rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {
 
   }
 }
@@ -112,10 +112,10 @@ message GetUserIdFromTokenResponse {
   string userId = 1;
 }
 
-message GetUserFromByIdRequest {
+message GetUserByIdRequest {
   string userId = 1;
 }
-message GetUserFromByIdResponse {
+message GetUserByIdResponse {
   string Name = 1;
   string Surname = 2;
   string SecondName = 3;

@@ -29,7 +29,7 @@ type AuthV1Client interface {
 	ConfirmEmail(ctx context.Context, in *ConfirmEmailRequest, opts ...grpc.CallOption) (*ConfirmEmailResponse, error)
 	User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	GetUserIdFromToken(ctx context.Context, in *GetUserIdFromTokenRequest, opts ...grpc.CallOption) (*GetUserIdFromTokenResponse, error)
-	GetUserFromById(ctx context.Context, in *GetUserFromByIdRequest, opts ...grpc.CallOption) (*GetUserFromByIdResponse, error)
+	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
 }
 
 type authV1Client struct {
@@ -94,9 +94,9 @@ func (c *authV1Client) GetUserIdFromToken(ctx context.Context, in *GetUserIdFrom
 	return out, nil
 }
 
-func (c *authV1Client) GetUserFromById(ctx context.Context, in *GetUserFromByIdRequest, opts ...grpc.CallOption) (*GetUserFromByIdResponse, error) {
-	out := new(GetUserFromByIdResponse)
-	err := c.cc.Invoke(ctx, "/auth_v1.AuthV1/GetUserFromById", in, out, opts...)
+func (c *authV1Client) GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error) {
+	out := new(GetUserByIdResponse)
+	err := c.cc.Invoke(ctx, "/auth_v1.AuthV1/GetUserById", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -113,7 +113,7 @@ type AuthV1Server interface {
 	ConfirmEmail(context.Context, *ConfirmEmailRequest) (*ConfirmEmailResponse, error)
 	User(context.Context, *UserRequest) (*UserResponse, error)
 	GetUserIdFromToken(context.Context, *GetUserIdFromTokenRequest) (*GetUserIdFromTokenResponse, error)
-	GetUserFromById(context.Context, *GetUserFromByIdRequest) (*GetUserFromByIdResponse, error)
+	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error)
 	mustEmbedUnimplementedAuthV1Server()
 }
 
@@ -139,8 +139,8 @@ func (UnimplementedAuthV1Server) User(context.Context, *UserRequest) (*UserRespo
 func (UnimplementedAuthV1Server) GetUserIdFromToken(context.Context, *GetUserIdFromTokenRequest) (*GetUserIdFromTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserIdFromToken not implemented")
 }
-func (UnimplementedAuthV1Server) GetUserFromById(context.Context, *GetUserFromByIdRequest) (*GetUserFromByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetUserFromById not implemented")
+func (UnimplementedAuthV1Server) GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
 }
 func (UnimplementedAuthV1Server) mustEmbedUnimplementedAuthV1Server() {}
 
@@ -263,20 +263,20 @@ func _AuthV1_GetUserIdFromToken_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AuthV1_GetUserFromById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetUserFromByIdRequest)
+func _AuthV1_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetUserByIdRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthV1Server).GetUserFromById(ctx, in)
+		return srv.(AuthV1Server).GetUserById(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/auth_v1.AuthV1/GetUserFromById",
+		FullMethod: "/auth_v1.AuthV1/GetUserById",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthV1Server).GetUserFromById(ctx, req.(*GetUserFromByIdRequest))
+		return srv.(AuthV1Server).GetUserById(ctx, req.(*GetUserByIdRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -313,8 +313,8 @@ var AuthV1_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _AuthV1_GetUserIdFromToken_Handler,
 		},
 		{
-			MethodName: "GetUserFromById",
-			Handler:    _AuthV1_GetUserFromById_Handler,
+			MethodName: "GetUserById",
+			Handler:    _AuthV1_GetUserById_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
