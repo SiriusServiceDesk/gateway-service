@@ -30,6 +30,7 @@ type AuthV1Client interface {
 	User(ctx context.Context, in *UserRequest, opts ...grpc.CallOption) (*UserResponse, error)
 	GetUserIdFromToken(ctx context.Context, in *GetUserIdFromTokenRequest, opts ...grpc.CallOption) (*GetUserIdFromTokenResponse, error)
 	GetUserById(ctx context.Context, in *GetUserByIdRequest, opts ...grpc.CallOption) (*GetUserByIdResponse, error)
+	ConnectTelegram(ctx context.Context, in *ConnectTelegramRequest, opts ...grpc.CallOption) (*ConnectTelegramResponse, error)
 }
 
 type authV1Client struct {
@@ -103,6 +104,15 @@ func (c *authV1Client) GetUserById(ctx context.Context, in *GetUserByIdRequest, 
 	return out, nil
 }
 
+func (c *authV1Client) ConnectTelegram(ctx context.Context, in *ConnectTelegramRequest, opts ...grpc.CallOption) (*ConnectTelegramResponse, error) {
+	out := new(ConnectTelegramResponse)
+	err := c.cc.Invoke(ctx, "/auth_v1.AuthV1/ConnectTelegram", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthV1Server is the server API for AuthV1 service.
 // All implementations must embed UnimplementedAuthV1Server
 // for forward compatibility
@@ -114,6 +124,7 @@ type AuthV1Server interface {
 	User(context.Context, *UserRequest) (*UserResponse, error)
 	GetUserIdFromToken(context.Context, *GetUserIdFromTokenRequest) (*GetUserIdFromTokenResponse, error)
 	GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error)
+	ConnectTelegram(context.Context, *ConnectTelegramRequest) (*ConnectTelegramResponse, error)
 	mustEmbedUnimplementedAuthV1Server()
 }
 
@@ -141,6 +152,9 @@ func (UnimplementedAuthV1Server) GetUserIdFromToken(context.Context, *GetUserIdF
 }
 func (UnimplementedAuthV1Server) GetUserById(context.Context, *GetUserByIdRequest) (*GetUserByIdResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUserById not implemented")
+}
+func (UnimplementedAuthV1Server) ConnectTelegram(context.Context, *ConnectTelegramRequest) (*ConnectTelegramResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ConnectTelegram not implemented")
 }
 func (UnimplementedAuthV1Server) mustEmbedUnimplementedAuthV1Server() {}
 
@@ -281,6 +295,24 @@ func _AuthV1_GetUserById_Handler(srv interface{}, ctx context.Context, dec func(
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AuthV1_ConnectTelegram_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ConnectTelegramRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthV1Server).ConnectTelegram(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth_v1.AuthV1/ConnectTelegram",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthV1Server).ConnectTelegram(ctx, req.(*ConnectTelegramRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AuthV1_ServiceDesc is the grpc.ServiceDesc for AuthV1 service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -315,6 +347,10 @@ var AuthV1_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetUserById",
 			Handler:    _AuthV1_GetUserById_Handler,
+		},
+		{
+			MethodName: "ConnectTelegram",
+			Handler:    _AuthV1_ConnectTelegram_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

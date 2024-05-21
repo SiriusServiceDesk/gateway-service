@@ -50,7 +50,11 @@ service AuthV1 {
   rpc GetUserById(GetUserByIdRequest) returns (GetUserByIdResponse) {
 
   }
+
+  rpc ConnectTelegram (ConnectTelegramRequest) returns (ConnectTelegramResponse) {}
+
 }
+
 message StatusResponse {
   int32  status = 1;
   string  message = 2;
@@ -115,10 +119,21 @@ message GetUserIdFromTokenResponse {
 message GetUserByIdRequest {
   string userId = 1;
 }
+
 message GetUserByIdResponse {
   string Name = 1;
   string Surname = 2;
   string SecondName = 3;
   string Email = 4;
   string Role = 5;
+  string TelegramId = 6;
+}
+
+message ConnectTelegramRequest {
+  string userId = 1;
+  string telegramId = 2;
+}
+
+message ConnectTelegramResponse {
+  string message = 1;
 }
